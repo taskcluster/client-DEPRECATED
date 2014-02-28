@@ -1,4 +1,5 @@
-client
-======
+# taskcluster-client
 
-NodeJS client for (some yet to be determined) amount of task cluster
+Various utilities for interacting with various taskcluster components
+(mostly the queue and amqp). The intent is for the "client" to be a set
+of small modules which can be used selectively.
