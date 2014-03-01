@@ -2,10 +2,10 @@ module.exports = function(grunt) {
   var docFiles = [
     'README.md',
     'amqp.js',
-    'config.js'
+    'config.js',
+    'exchange.js'
   ];
 
-  
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -23,7 +23,8 @@ module.exports = function(grunt) {
         options: {
           private: false,
           template: './node_modules/ink-docstrap/template',
-          configure: './jsdoc.json'
+          configure: './jsdoc.json',
+          tutorials: './tutorial'
         }
       }
     }

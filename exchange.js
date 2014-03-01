@@ -4,13 +4,34 @@
 Exchange constants and utilities for binding to queues...
 
 @module taskcluster-client/exchange
+@tutorial binding_with_amqpworkers
 */
 
 var util = require('util');
 
+/**
+queue messages for pending tasks.
+@constant
+*/
 exports.QUEUE_TASK_PENDING = 'v1/queue:task-pending';
+
+/**
+queue messages for running tasks.
+@type String
+@constant
+*/
 exports.QUEUE_TASK_RUNNING = 'v1/queue:task-running';
+
+/**
+queue messages for completed tasks.
+@constant
+*/
 exports.QUEUE_TASK_COMPLETED = 'v1/queue:task-completed';
+
+/**
+queue messages for failed tasks.
+@constant
+*/
 exports.QUEUE_TASK_FAILED = 'v1/queue:task-failed';
 
 /**
@@ -39,6 +60,7 @@ exports.QUEUE_TASKS = [
 @return {String} routing key based on the object params.
 
 @example
+var exchange = require('taskcluster-client/exchange');
 
 var routingKey = exchange.routingKey({
   provisionerId: 'aws-provisioner',
@@ -63,3 +85,6 @@ exports.routingKey = function routingKey(options) {
     return options[param] || (param == 'taskRouting' ? '#' : '*');
   }).join('.');
 };
+
+/**
+*/

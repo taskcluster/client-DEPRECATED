@@ -1,22 +1,22 @@
 {
-	"tags": {
-		"allowUnknownTags": true
-	},
-	"plugins": ["plugins/markdown"],
-	"templates": {
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
     "default": {
       "outputSourceFiles": true
     },
-		"cleverLinks": true,
-		"monospaceLinks": true,
-		"systemName": "taskcluster-client",
-		"footer": "",
-		"navType": "vertical",
-		"theme": "spacelab",
+    "cleverLinks": true,
+    "monospaceLinks": true,
+    "systemName": "taskcluster-client",
+    "footer": "",
+    "navType": "vertical",
+    "theme": "spacelab",
     "linenums": true
-	} ,
-	"markdown": {
-		"parser": "gfm",
-		"hardwrap": true
-	}
+  } ,
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
 }
