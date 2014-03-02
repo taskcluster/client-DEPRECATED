@@ -1,5 +1,6 @@
 The task factory is provided to ease constructing all the parameters
-required for posting a task.
+required for posting a task. The [object-factory](https://github.com/lightsofapollo/object-factory) module is used to construct these factories...
+See the docs there for examples.
 
 ## Usage
 
