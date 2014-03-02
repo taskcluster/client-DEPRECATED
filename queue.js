@@ -7,11 +7,13 @@ var urlJoin = require('url-join');
 var config = require('./config');
 var request = require('superagent-promise');
 
+var QueueError = require('./queueerror');
+
 var API_VERSION = 'v1';
 
 function handleResponse(promise) {
   return promise.then(function(res) {
-    if (res.error) throw res.error;
+    if (res.error) throw new QueueError(res);
     return res.body;
   });
 }
@@ -21,7 +23,9 @@ HTTP api for the taskcluster queue.
 
 @param {Object} options for the queue.
 @param {String} [options.queueUrl].
+@constructor
 @see http://docs.taskcluster.net/queue/api-docs.html
+@alias module:taskcluster-client/queue
 */
 function Queue(options) {
   this.options = config(options);
@@ -30,6 +34,23 @@ function Queue(options) {
 Queue.API_VERSION = API_VERSION;
 
 Queue.prototype = {
+  /**
+  Build a url for the queue (with the appropriate version). Runs string through
+  util.format so placeholders can be used...
+
+  @param {String} path to use (can use placeholders in string)
+  @param {Array} [placeholders]
+  @return {String} complete url for the taskcluster queue.
+  */
+  url: function() {
+    var format = Array.prototype.slice.call(arguments);
+
+    return urlJoin(
+      this.options.queueUrl,
+      API_VERSION,
+      util.format.apply(util, format)
+    );
+  },
 
   /**
   Issue a request to the taskcluster queue.
@@ -49,30 +70,27 @@ Queue.prototype = {
   @return {Promise<Object>}
   */
   amqpConnectionString: function() {
-    var url = this.url('/settings/amqp-connection-string');
-    console.log(url);
     return handleResponse(this.request(
       'GET',
-      url
+      this.url('/settings/amqp-connection-string')
     ).end());
   },
-
   /**
-  Build a url for the queue (with the appropriate version). Runs string through
-  util.format so placeholders can be used...
+  Create a new task see the {@tutorial task_factories} tutorial for usage with
+  the `taskcluster-client/factory/task` module for utilities to construct the
+  task body.
 
-  @param {String} path to use (can use placeholders in string)
-  @param {Array} [placeholders]
+  @param {Object} task definition.
+  @return {Promise<Object>} promise response.
   */
-  url: function() {
-    var format = Array.prototype.slice.call(arguments);
+  postTask: function(task) {
+    var req = this.request('POST', this.url('/task/new'))
+                .send(task)
+                .end();
 
-    return urlJoin(
-      this.options.queueUrl,
-      API_VERSION,
-      util.format.apply(util, format)
-    );
+    return handleResponse(req);
   }
+
 };
 
 module.exports = Queue;

@@ -3,6 +3,14 @@ suite('queue', function() {
   var urlJoin = require('url-join');
   var Queue = require('./queue');
 
+  suiteSetup(function() {
+    nock.disableNetConnect();
+  });
+
+  suiteTeardown(function() {
+    nock.enableNetConnect();
+  });
+
   var subject;
   setup(function() {
     subject = new Queue();
@@ -31,14 +39,45 @@ suite('queue', function() {
 
   test('#amqpConnectionString', function() {
     var config = require('./config');
-    var url = 'amqp://localhost:5672';
 
     nock(subject.options.queueUrl).
       get('/v1/settings/amqp-connection-string').
-      reply(200, { url: url });
+      reply(200, { url: 'amqp://localhost:5672' });
 
     return subject.amqpConnectionString().then(function(body) {
-      assert.equal(body.url, url);
+      assert.ok(body.url);
+      assert.ok(body.url.indexOf('amqp') === 0);
+    });
+  });
+
+  suite('#postTask', function() {
+    var TaskFactory = require('./factory/task');
+
+    test('unsuccessful', function(done) {
+      require('./test/fixtures/nock_task_post_error');
+
+      var task = TaskFactory.create();
+
+      subject.postTask(task).then(function(response) {
+        done(new Error('Should not be successful'));
+      }).catch(function(err) {
+        assert.ok(err);
+        assert.ok(err.message.indexOf('schema') !== -1);
+        done();
+      });
+    });
+
+    test('successful', function() {
+      require('./test/fixtures/nock_task_post_success');
+
+      var task = TaskFactory.create({
+        // use some fake values so we don't run real tasks...
+        workerType: 'not-a-real-worker',
+        provisionerId: 'fake-provisioner-dont-do-stuff',
+        metadata: { owner: 'testing@testing.com' }
+      });
+
+      return subject.postTask(task);
     });
   });
 });

@@ -1,11 +1,11 @@
 suite('exchange', function() {
   var exchange = require('./exchange');
 
-  suite('routingKey', function() {
+  suite('#taskRoutingKey', function() {
 
     test('defaults', function() {
       assert.equal(
-        exchange.routingKey(),
+        exchange.taskRoutingKey(),
         '*.*.*.*.*.*.#'
       );
     });
@@ -29,7 +29,7 @@ suite('exchange', function() {
       });
 
       assert.equal(
-        exchange.routingKey(object),
+        exchange.taskRoutingKey(object),
         expected.join('.')
       );
     });
