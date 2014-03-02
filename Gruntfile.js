@@ -3,7 +3,8 @@ module.exports = function(grunt) {
     'README.md',
     'amqp.js',
     'config.js',
-    'exchange.js'
+    'exchange.js',
+    'queue.js'
   ];
 
   // Project configuration.

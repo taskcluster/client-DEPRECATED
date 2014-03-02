@@ -62,7 +62,7 @@ exports.QUEUE_TASKS = [
 @example
 var exchange = require('taskcluster-client/exchange');
 
-var routingKey = exchange.routingKey({
+var routingKey = exchange.taskRoutingKey({
   provisionerId: 'aws-provisioner',
   workerType: 'ami-xfoo'
 });
@@ -70,7 +70,7 @@ var routingKey = exchange.routingKey({
 // routingKey => '*.*.*.aws-provisoiner.ami-xfoo.#'
 
 */
-exports.routingKey = function routingKey(options) {
+exports.taskRoutingKey = function(options) {
   options = options || {};
 
   return [

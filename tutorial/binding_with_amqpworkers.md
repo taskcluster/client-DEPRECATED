@@ -8,7 +8,7 @@ running exchange.
 var AmqpSchema = require('amqpworkers/schema');
 
 var exchange = require('taskcluster-client/exchange');
-var route = exchange.routingKey();
+var route = exchange.taskRoutingKey();
 
 module.exports = new AmqpSchema({
   queues: [
@@ -23,15 +23,20 @@ module.exports = new AmqpSchema({
 
 ```js
 // app.js
-var amqp = require('taskcluster-client/amqp');
+var Queue = require('taskcluster-client/queue');
+var amqp = require('amqplib');
 var schema = require('./schema');
 
-// declare your apps amqp schema (this is idempotent so you can run this
-safely on app startup).
+var api = new Queue();
 
-amqp().then(function(connection) {
-  return schema.define(connection);
+api.amqpConnectionString().then(funciton(credentials) {
+  amqp.connect(credentials.url).then(function(connection) {
+    // define your amqp schema (this is idempontent...
+    return schema.define(connection);
+  });
 });
+
+
 ```
 
 Also see the [docs for schema](https://github.com/lightsofapollo/amqpworkers#schema)
