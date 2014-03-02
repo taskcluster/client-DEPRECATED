@@ -4,7 +4,8 @@ module.exports = function(grunt) {
     'amqp.js',
     'config.js',
     'exchange.js',
-    'queue.js'
+    'queue.js',
+    'factory/task.js'
   ];
 
   // Project configuration.
