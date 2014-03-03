@@ -89,6 +89,22 @@ Queue.prototype = {
                 .end();
 
     return handleResponse(req);
+  },
+
+  /**
+  Fetch a task definition based on its task id.
+
+  @param {String} taskId acquired by posting a task.
+  @return {Promise<Object>} task definition promise.
+  */
+  getTask: function(taskId) {
+    var url = urlJoin(
+      this.options.tasksUrl,
+      taskId,
+      'task.json'
+    );
+
+    return handleResponse(request('GET', url).end());
   }
 
 };
