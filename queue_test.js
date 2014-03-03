@@ -86,6 +86,8 @@ suite('queue', function() {
   });
 
   test('#getTask', function() {
+    require('./test/fixtures/nock_task_get');
+
     var submitTask = TaskFactory.create({
       workerType: 'not-a-real-worker',
       provisionerId: 'fake-provisioner-dont-do-stuff',
