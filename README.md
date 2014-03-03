@@ -23,8 +23,3 @@ npm test
 ```sh
 npm run-script doc
 ```
-
-## Environment configuration
-
-  `TASKCLUSTER_QUEUE` - taskcluster queue location (defaults to queue.taskcluster.net)
-
