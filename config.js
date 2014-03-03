@@ -19,6 +19,8 @@ var DEFAULT_TASKCLUSTER_TASK_BUCKET = 'http://tasks.taskcluster.net';
 
 /**
 @param {Object} [options] configuration details for TC.
+@param {Object} [options.queueUrl] protocol + host for queue url.
+@param {Object} [options.tasksUrl] protocol + host for tasks location.
 @return {Object} full configuration for taskcluster
 */
 function config(options) {
