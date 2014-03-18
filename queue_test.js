@@ -4,6 +4,8 @@ suite('queue', function() {
   var TaskFactory = require('./factory/task');
   var Queue = require('./queue');
 
+  //nock.recorder.rec();
+
   suiteSetup(function() {
     nock.disableNetConnect();
   });
@@ -73,7 +75,7 @@ suite('queue', function() {
       var task = TaskFactory.create({
         // use some fake values so we don't run real tasks...
         workerType: 'not-a-real-worker',
-        provisionerId: 'fake-provisioner-dont-do-stuff',
+        provisionerId: 'fake-provisioner',
         metadata: { owner: 'testing@testing.com' }
       });
 
@@ -90,7 +92,7 @@ suite('queue', function() {
 
     var submitTask = TaskFactory.create({
       workerType: 'not-a-real-worker',
-      provisionerId: 'fake-provisioner-dont-do-stuff',
+      provisionerId: 'fake-provisioner',
       metadata: { owner: 'testing@testing.com' },
       tags: {
         madeFromTest: 'yup'
