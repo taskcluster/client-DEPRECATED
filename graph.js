@@ -16,7 +16,7 @@ HTTP api for the taskcluster graph.
 @param {Object} options for the graph.
 @param {String} [options.graphUrl].
 @constructor
-@see http://docs.taskcluster.net/scheduler/events/
+@see http://docs.taskcluster.net/scheduler/api-docs/
 @alias module:taskcluster-client/graph
 */
 function Graph(options) {
@@ -27,9 +27,9 @@ Graph.API_VERSION = API_VERSION;
 
 Graph.prototype = {
   /**
-  @see taskcluster-client/factory/graph
   @param {Object} graph object to insert into.
-    See the graph factory for helpers to generate this.
+    See the {@link module:taskcluster-client/factory/graph|graph factory}
+    for helpers to generate this.
   @return {Promise<Object>} promise for the result of the insertion.
   */
   create: function(graph) {
