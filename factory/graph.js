@@ -6,8 +6,12 @@ var Task = require('./task');
 
 
 var GraphTask = new Factory({
+  onbuild: function(props) {
+    props.requires = props.requires || [];
+  },
+
   properties: {
-    // required: []
+    // requires: []
     reruns: 0,
     task: Task
   }
@@ -15,17 +19,20 @@ var GraphTask = new Factory({
 
 var Graph = new Factory({
   onbuild: function(props) {
-    props.tasks = props.tasks || [];
-    props.tasks = props.tasks.map(function(task) {
-      // it is safe to specify it multiple times
-      return GraphTask.create(task);
-    });
+    props.tasks = props.tasks || {};
+
+    props.tasks = Object.keys(props.tasks).reduce(function(result, name) {
+      var task = props.tasks[name];
+      result[name] = GraphTask.create(task);
+
+      return result;
+    }, {});
   },
 
   properties: {
     version: '0.2.0',
     // routing: ''
-    // tasks: [GraphTask]
+    // tasks: { 'name': Graph }
   }
 });
 
