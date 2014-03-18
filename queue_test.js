@@ -4,6 +4,18 @@ suite('queue', function() {
   var TaskFactory = require('./factory/task');
   var Queue = require('./queue');
 
+  var TestTask = TaskFactory.extend({
+    properties: {
+      workerType: 'not-a-real-worker',
+      provisionerId: 'fake-provisioner',
+      metadata: {
+        name: 'test-task',
+        source: 'http://localhost',
+        owner: 'testing@testing.com'
+      }
+    }
+  });
+
   //nock.recorder.rec();
 
   suiteSetup(function() {
@@ -57,7 +69,6 @@ suite('queue', function() {
 
     test('unsuccessful', function(done) {
       require('./test/fixtures/nock_task_post_error');
-
       var task = TaskFactory.create();
 
       subject.postTask(task).then(function(response) {
@@ -71,13 +82,7 @@ suite('queue', function() {
 
     test('successful', function() {
       require('./test/fixtures/nock_task_post_success');
-
-      var task = TaskFactory.create({
-        // use some fake values so we don't run real tasks...
-        workerType: 'not-a-real-worker',
-        provisionerId: 'fake-provisioner',
-        metadata: { owner: 'testing@testing.com' }
-      });
+      var task = TestTask.create();
 
       return subject.postTask(task).then(function(body) {
         // quick sanity check
@@ -89,21 +94,32 @@ suite('queue', function() {
 
   test('#getTask', function() {
     require('./test/fixtures/nock_task_get');
-
-    var submitTask = TaskFactory.create({
-      workerType: 'not-a-real-worker',
-      provisionerId: 'fake-provisioner',
-      metadata: { owner: 'testing@testing.com' },
-      tags: {
-        madeFromTest: 'yup'
-      }
-    });
+    var submitTask = TestTask.create({ tags: { madeFromTest: 'yup' } });
 
     return subject.postTask(submitTask).then(function(body) {
       var taskId = body.status.taskId;
       return subject.getTask(taskId);
     }).then(function(task) {
       assert.deepEqual(task.tags.madeFromTest, submitTask.tags.madeFromTest);
+    });
+  });
+
+  suite('#taskStatus', function() {
+    var task = TestTask.create({ routing: 'task-status-test' });
+    var taskId;
+
+    setup(function() {
+      require('./test/fixtures/nock_task_status');
+      return subject.postTask(task).then(function(body) {
+        taskId = body.status.taskId;
+      });
+    });
+
+    test('status', function() {
+      return subject.taskStatus(taskId).then(function(body) {
+        var status = body.status;
+        assert.equal(status.routing, task.routing);
+      });
     });
   });
 });

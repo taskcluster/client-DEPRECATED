@@ -92,6 +92,17 @@ Queue.prototype = {
   },
 
   /**
+  Fetch the status of the given task and return a task status structure.
+
+  @param {String} taskId to fetch status of.
+  @return {Promise<Object>} promise response.
+  */
+  taskStatus: function(taskId) {
+    var url = this.url('/task/%s/status', taskId);
+    return handleResponse(request.get(url).end());
+  },
+
+  /**
   Fetch a task definition based on its task id.
 
   @param {String} taskId acquired by posting a task.
