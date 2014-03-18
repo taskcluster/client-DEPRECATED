@@ -40,18 +40,6 @@ suite('queue', function() {
     assert.equal(subject.options.queueUrl, url);
   });
 
-  test('#url', function() {
-    var expected = urlJoin(
-      subject.options.queueUrl,
-      Queue.API_VERSION,
-      'task/1/status'
-    );
-
-    var url = subject.url('task/%d/status', 1);
-
-    assert.equal(expected, url);
-  });
-
   test('#amqpConnectionString', function() {
     var config = require('./config');
 
