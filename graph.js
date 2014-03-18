@@ -1,5 +1,5 @@
 /**
-@module taskcluster-client/queue
+@module taskcluster-client/graph
 */
 
 var config = require('./config');
@@ -11,13 +11,13 @@ var HttpError = require('./httperror');
 var API_VERSION = '/v1/';
 
 /**
-HTTP api for the taskcluster queue.
+HTTP api for the taskcluster graph.
 
-@param {Object} options for the queue.
-@param {String} [options.queueUrl].
+@param {Object} options for the graph.
+@param {String} [options.graphUrl].
 @constructor
-@see http://docs.taskcluster.net/queue/api-docs.html
-@alias module:taskcluster-client/queue
+@see http://docs.taskcluster.net/scheduler/events/
+@alias module:taskcluster-client/graph
 */
 function Graph(options) {
   this.options = config(options);
