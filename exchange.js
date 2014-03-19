@@ -80,7 +80,7 @@ var routingKey = exchange.taskRoutingKey({
 // routingKey => '*.*.*.aws-provisoiner.ami-xfoo.#'
 
 */
-exports.queueRoutingKey = function(options) {
+exports.queueTaskRoutingKey = function(options) {
   options = options || {};
 
   return [
@@ -96,7 +96,7 @@ exports.queueRoutingKey = function(options) {
   }).join('.');
 };
 
-exports.graphRoutingKey = function(options) {
+exports.graphTaskRoutingKey = function(options) {
   options = options || {};
 
   return [
