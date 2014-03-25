@@ -31,6 +31,11 @@ suite('queue', function() {
     subject = new Graph();
   });
 
+  test('#azureTable', function() {
+    require('./test/fixtures/nock_graph_table_access')();
+    return subject.azureTable();
+  });
+
   test('#create', function() {
     require('./test/fixtures/nock_graph_create');
 

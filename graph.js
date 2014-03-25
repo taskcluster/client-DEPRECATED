@@ -26,6 +26,26 @@ function Graph(options) {
 Graph.API_VERSION = API_VERSION;
 
 Graph.prototype = {
+
+  /**
+  Fetch azure credentials...
+
+  @return {Object}
+  */
+  azureTable: function() {
+    var url = formatUrl(
+      this.options.graphUrl,
+      API_VERSION,
+      '/table-access/',
+      []
+    );
+
+    return request
+      .get(url)
+      .end()
+      .then(HttpError.responseHandler);
+  },
+
   /**
   @param {Object} graph object to insert into.
     See the {@link module:taskcluster-client/factory/graph|graph factory}
