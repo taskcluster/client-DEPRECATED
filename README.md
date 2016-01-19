@@ -1,3 +1,10 @@
+# DEPRECATED
+
+Use [taskcluster-client](github.com/taskcluster/taskcluster-client) instead.
+
+
+-----
+
 # taskcluster-client
 
 Various utilities for interacting with various taskcluster components
