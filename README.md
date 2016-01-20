@@ -1,6 +1,6 @@
 # DEPRECATED
 
-Use [taskcluster-client](github.com/taskcluster/taskcluster-client) instead.
+Use [taskcluster-client](https://github.com/taskcluster/taskcluster-client) instead.
 
 
 -----
