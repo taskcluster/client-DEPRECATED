@@ -14,3 +14,18 @@ deploy:
   on:
     repo: taskcluster/client
     branch: initial
+
+# encrpyt channel name to get around issue
+# https://github.com/travis-ci/travis-ci/issues/1094
+notifications:
+  irc:
+    channels:
+      # encrpyted string was "irc.mozilla.org#taskcluster-bots"
+      - secure: "FBrQJtPG+fdqI8IZgYJWiRD6bepvgyL6Dt6SqAwQKXkaQpMzHkHDhrHGhBKW+ZV0Ov+7Mk8rme+F5o4UBSYEwXDW8nJBMyMw09LrjqJ97PF1bAuRp3rflEB2HCqOa3y4yBMhyJ7JyFdxp1xRJ2FttFsxl4m1/YDCOaFTo3+nl1I="
+    on_success: change
+    on_failure: always
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
+      - "Commit message : %{commit_message}"
